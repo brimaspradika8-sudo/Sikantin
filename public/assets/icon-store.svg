@@ -1,0 +1,7 @@
+<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Store icon -->
+  <path d="M3 9l1.65 11a2 2 0 0 0 2 1.85h12.7a2 2 0 0 0 2-1.85L21 9M3 9h18M8 14v4M12 14v4M16 14v4M6 9l.5-2h11l.5 2"/>
+  <rect x="5" y="3" width="14" height="5" rx="1"/>
+  <circle cx="9" cy="5.5" r="0.5" fill="currentColor"/>
+  <circle cx="15" cy="5.5" r="0.5" fill="currentColor"/>
+</svg>
