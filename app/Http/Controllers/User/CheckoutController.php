@@ -50,8 +50,8 @@ class CheckoutController extends Controller
 
         foreach ($grouped as $sellerId => $sellerItems) {
             foreach ($sellerItems as $item) {
-                if (! $item->product || $item->quantity > ($item->product->stock ?? 0)) {
-                    return back()->with('warning', 'Stok produk '.(optional($item->product)->name ?? 'Produk tidak tersedia').' tidak mencukupi.');
+                if (! $item->product) {
+                    return back()->with('warning', 'Produk '.(optional($item->product)->name ?? 'Produk tidak tersedia').' tidak ditemukan.');
                 }
             }
 

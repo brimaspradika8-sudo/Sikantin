@@ -24,10 +24,7 @@
                             <p class="text-sm uppercase tracking-widest text-white/75">E-Wallet</p>
                             <p class="text-lg font-semibold">QRIS, OVO, GoPay</p>
                         </div>
-                        <div class="bg-white/15 border border-white/30 rounded-3xl px-4 py-3">
-                            <p class="text-sm uppercase tracking-widest text-white/75">Aman</p>
-                            <p class="text-lg font-semibold">Scan QR sekali pakai</p>
-                        </div>
+
                     </div>
                 </div>
                 <div class="space-y-4">

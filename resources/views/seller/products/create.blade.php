@@ -21,7 +21,7 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('seller.products.store') }}" method="POST">
+                <form action="{{ route('seller.products.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @include('seller.products.form', ['buttonText' => 'Tambah Produk'])
                 </form>

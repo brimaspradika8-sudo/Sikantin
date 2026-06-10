@@ -10,23 +10,29 @@
         </p>
 
         <p style="color: #374151; font-size: 16px; line-height: 1.6;">
-            Akun penjual Anda telah dibuat dengan detail login berikut:
+            Akun penjual Anda telah disetujui. Anda dapat login menggunakan email ini:
         </p>
 
         <div style="background-color: white; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <p style="color: #6b7280; font-size: 14px; margin-top: 0;">
-                <strong>Email Penjual:</strong>
+                <strong>Email Login:</strong>
             </p>
             <p style="color: #111827; font-size: 16px; font-weight: bold; font-family: 'Courier New', monospace; background-color: #f3f4f6; padding: 10px; border-radius: 4px; margin: 0;">
                 {{ $sellerEmail }}
             </p>
 
-            <p style="color: #6b7280; font-size: 14px; margin-top: 15px; margin-bottom: 5px;">
-                <strong>Password Sementara:</strong>
-            </p>
-            <p style="color: #111827; font-size: 16px; font-weight: bold; font-family: 'Courier New', monospace; background-color: #f3f4f6; padding: 10px; border-radius: 4px; margin: 0;">
-                {{ $sellerPassword }}
-            </p>
+            @if($sellerPassword)
+                <p style="color: #6b7280; font-size: 14px; margin-top: 15px; margin-bottom: 5px;">
+                    <strong>Password Sementara:</strong>
+                </p>
+                <p style="color: #111827; font-size: 16px; font-weight: bold; font-family: 'Courier New', monospace; background-color: #f3f4f6; padding: 10px; border-radius: 4px; margin: 0;">
+                    {{ $sellerPassword }}
+                </p>
+            @else
+                <p style="color: #374151; font-size: 16px; line-height: 1.6; margin-top: 15px;">
+                    Gunakan password akun Anda yang sudah terdaftar sebelumnya.
+                </p>
+            @endif
         </div>
 
         <p style="color: #374151; font-size: 16px; line-height: 1.6;">

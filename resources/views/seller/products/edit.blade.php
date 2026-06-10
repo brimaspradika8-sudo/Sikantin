@@ -6,8 +6,7 @@
                 <p class="text-gray-500 dark:text-gray-400 mt-1">Perbarui informasi produk Anda.</p>
             </div>
         </div>
-    </x-slot>
-
+    </x-
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 grid gap-8 xl:grid-cols-[280px_1fr]">
             @include('seller.partials.sidebar')
@@ -21,7 +20,7 @@
                         </ul>
                     </div>
                 @endif
-                <form action="{{ route('seller.products.update', $product) }}" method="POST">
+                <form action="{{ route('seller.products.update', $product) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PATCH')
                     @include('seller.products.form', ['buttonText' => 'Perbarui Produk'])

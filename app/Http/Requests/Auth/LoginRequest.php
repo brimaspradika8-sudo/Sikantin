@@ -43,6 +43,19 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            // Log failed attempt for debugging (do not log the password)
+            try {
+                $user = \App\Models\User::where('email', $this->string('email'))->first();
+                $userExists = $user ? true : false;
+                $passwordValid = false;
+                if ($userExists) {
+                    $passwordValid = \Illuminate\Support\Facades\Hash::check($this->string('password'), $user->getAuthPassword());
+                }
+                \Log::info('Failed login attempt', ['email' => $this->string('email'), 'user_exists' => $userExists, 'password_valid' => $passwordValid]);
+            } catch (\Throwable $e) {
+                \Log::warning('Failed to log login attempt debug info: ' . $e->getMessage());
+            }
+
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

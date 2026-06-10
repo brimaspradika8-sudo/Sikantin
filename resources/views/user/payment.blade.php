@@ -6,9 +6,6 @@
                 <p class="text-gray-500 dark:text-gray-400 mt-1">Invoice {{ $firstOrder->payment?->invoice_number }} untuk {{ $firstOrder->order_number }}</p>
             </div>
             <div class="flex flex-wrap gap-3">
-                <a href="{{ route('user.invoice.show', $firstOrder) }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-gray-300 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 transition">
-                    <i class="fa-solid fa-file-invoice"></i> Invoice
-                </a>
                 <a href="{{ route('user.orders.show', $firstOrder) }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-brand-500 text-brand-600 hover:bg-brand-50 transition">
                     <i class="fa-solid fa-box"></i> Detail Pesanan
                 </a>
@@ -24,7 +21,7 @@
                         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
                             <div>
                                 <h3 class="text-2xl font-bold text-gray-900 dark:text-white">Ringkasan Pesanan</h3>
-                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Dipesan {{ $firstOrder->created_at->format('d M Y H:i') }}</p>
+                                <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Dipesan {{ $firstOrder->created_at->timezone(config('app.timezone'))->format('d M Y H:i') }}</p>
                             </div>
                             <span class="inline-flex w-fit items-center rounded-lg px-3 py-2 text-sm font-semibold {{ $firstOrder->statusClass() }}">{{ $firstOrder->statusLabel() }}</span>
                         </div>
@@ -40,11 +37,11 @@
                             </div>
                             <div class="rounded-lg bg-gray-50 dark:bg-gray-900 p-4">
                                 <p class="text-xs uppercase text-gray-500 dark:text-gray-400">Estimasi Selesai</p>
-                                <p class="font-semibold text-gray-900 dark:text-white mt-1">{{ $firstOrder->estimated_ready_at?->format('d M Y H:i') ?? '-' }}</p>
+                                <p class="font-semibold text-gray-900 dark:text-white mt-1">{{ $firstOrder->estimated_ready_at?->timezone(config('app.timezone'))->format('d M Y H:i') ?? '-' }}</p>
                             </div>
                             <div class="rounded-lg bg-gray-50 dark:bg-gray-900 p-4">
                                 <p class="text-xs uppercase text-gray-500 dark:text-gray-400">Waktu Pengambilan</p>
-                                <p class="font-semibold text-gray-900 dark:text-white mt-1">{{ $firstOrder->pickup_window_at?->format('d M Y H:i') ?? '-' }}</p>
+                                <p class="font-semibold text-gray-900 dark:text-white mt-1">{{ $firstOrder->pickup_window_at?->timezone(config('app.timezone'))->format('d M Y H:i') ?? '-' }}</p>
                             </div>
                         </div>
 

@@ -17,7 +17,7 @@ class SellerApplicationApproved extends Mailable
     public function __construct(
         public SellerApplication $application,
         public string $sellerEmail,
-        public string $sellerPassword,
+        public ?string $sellerPassword = null,
     ) {}
 
     public function envelope(): Envelope

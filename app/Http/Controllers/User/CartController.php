@@ -27,13 +27,7 @@ class CartController extends Controller
         $existing = CartItem::where('cart_id', $cart->id)->where('product_id', $request->product_id)->first();
         $newQuantity = $existing ? $existing->quantity + $quantity : $quantity;
 
-        if ($newQuantity > $product->stock) {
-            return back()->with('warning', 'Jumlah melebihi stok tersedia.');
-        }
-
-        if ($product->stock <= 0) {
-            return back()->with('warning', 'Produk ini sudah habis.');
-        }
+        // stock feature removed — allow adding any quantity
 
         if ($existing) {
             $existing->update(['quantity' => $newQuantity]);
@@ -53,9 +47,7 @@ class CartController extends Controller
         }
 
         $product = $item->product;
-        if ($request->quantity > $product->stock) {
-            return back()->with('warning', 'Jumlah melebihi stok tersedia.');
-        }
+        // stock checks removed — accept requested quantity
 
         $item->update(['quantity' => $request->quantity]);
         return back()->with('success', 'Jumlah keranjang diperbarui.');

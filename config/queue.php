@@ -9,11 +9,12 @@ return [
     |
     | Laravel's queue supports a variety of backends via a single, unified
     | API, giving you convenient access to each backend using identical
-    | syntax for each. The default queue connection is defined below.
+    | syntax for each connection. For apps that don't need background queue
+    | processing, the sync driver is the simplest choice.
     |
     */
 
-    'default' => env('QUEUE_CONNECTION', 'database'),
+    'default' => env('QUEUE_CONNECTION', 'sync'),
 
     /*
     |--------------------------------------------------------------------------

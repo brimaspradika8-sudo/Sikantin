@@ -5,7 +5,8 @@
     <div class="max-w-2xl mx-auto">
         <div class="bg-white rounded-lg shadow-md p-8">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Pengajuan Penjual</h1>
-            <p class="text-gray-600 mb-8">Isi formulir di bawah untuk mengajukan diri sebagai penjual di Sikantin</p>
+            <p class="text-gray-600 mb-2">Isi formulir di bawah untuk mengajukan diri sebagai penjual di Sikantin</p>
+            <p class="text-sm text-gray-500 mb-8">Untuk memeriksa status persetujuan penjual, pastikan Anda sudah login dengan akun yang mengajukan permintaan (contoh: anita@gmail.com).</p>
 
             @if($application)
                 <div class="mb-8 p-4 rounded-lg @if($application->isApproved()) bg-green-100 border border-green-400 @elseif($application->isPending()) bg-blue-100 border border-blue-400 @else bg-red-100 border border-red-400 @endif">
@@ -25,10 +26,10 @@
 
                 @if($application->isApproved())
                     <div class="mb-8 p-4 bg-blue-50 border border-blue-300 rounded-lg">
-                        <p class="font-semibold text-blue-900 mb-4">Akun Penjual Anda Telah Dibuat</p>
-                        <p class="text-sm text-gray-700 mb-2">Email Penjual: <span class="font-mono bg-gray-200 px-2 py-1">{{ $application->sellerUser->email }}</span></p>
-                        <p class="text-sm text-gray-700 mb-4">Silakan cek email Anda untuk password penjual yang telah dikirimkan.</p>
-                        <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-800 font-semibold">Login dengan akun penjual →</a>
+                        <p class="font-semibold text-blue-900 mb-4">Akun Penjual Anda Telah Disetujui</p>
+                        <p class="text-sm text-gray-700 mb-2">Email Akun: <span class="font-mono bg-gray-200 px-2 py-1">{{ $application->sellerUser->email }}</span></p>
+                        <p class="text-sm text-gray-700 mb-4">Silakan login kembali menggunakan akun ini. Jika Anda sudah memiliki password, gunakan password yang sama dengan akun Anda.</p>
+                        <a href="{{ route('login') }}" class="text-blue-600 hover:text-blue-800 font-semibold">Login →</a>
                     </div>
                 @endif
             @endif

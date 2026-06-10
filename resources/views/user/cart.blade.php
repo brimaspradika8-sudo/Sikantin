@@ -42,17 +42,14 @@
                                         <div>
                                             <h3 class="text-lg font-bold text-gray-900 dark:text-white">{{ $item->product->name }}</h3>
                                             <p class="text-sm text-gray-500 dark:text-gray-400">Rp {{ number_format($item->product->price, 0, ',', '.') }}</p>
-                                            <p class="text-sm text-gray-500 dark:text-gray-400">Stok: {{ $item->product->stock }}</p>
-                                            @if($item->quantity > $item->product->stock)
-                                                <p class="text-sm text-red-600 dark:text-red-400">Jumlah di keranjang melebihi stok.</p>
-                                            @endif
+                                            
                                         </div>
                                     </div>
                                     <div class="space-y-4">
                                         <form action="{{ route('user.cart.update', $item) }}" method="POST" class="flex items-center gap-3 cart-quantity-form">
                                             @csrf
                                             @method('PATCH')
-                                            <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock }}" class="w-20 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 cart-quantity-input" />
+                                            <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="w-20 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-3 py-2 cart-quantity-input" />
                                         </form>
                                         <form action="{{ route('user.cart.remove', $item) }}" method="POST">
                                             @csrf

@@ -15,14 +15,18 @@
             </select>
         </label>
 
+        <label class="block">
+            <span class="text-sm text-gray-600 dark:text-gray-300">Gambar Produk</span>
+            <input type="file" name="image" accept="image/*" class="mt-2 w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3" {{ isset($product) ? '' : 'required' }} />
+            @if(isset($product) && $product->image)
+                <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">Gambar saat ini tersedia.</p>
+            @endif
+        </label>
+
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <label class="block">
                 <span class="text-sm text-gray-600 dark:text-gray-300">Harga</span>
                 <input type="number" name="price" value="{{ old('price', $product->price ?? '') }}" min="0" step="0.01" class="mt-2 w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3" required />
-            </label>
-            <label class="block">
-                <span class="text-sm text-gray-600 dark:text-gray-300">Stok</span>
-                <input type="number" name="stock" value="{{ old('stock', $product->stock ?? '') }}" min="0" class="mt-2 w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3" required />
             </label>
         </div>
 

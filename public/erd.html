@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ERD — Sikantin Kantin Sekolah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        background: '#0f172a',
+        primaryColor: '#1e293b',
+        primaryTextColor: '#f1f5f9',
+        primaryBorderColor: '#334155',
+        lineColor: '#60a5fa',
+        secondaryColor: '#0f172a',
+        tertiaryColor: '#1e293b',
+        edgeLabelBackground: '#0f172a',
+        attributeBackgroundColorEven: '#1e293b',
+        attributeBackgroundColorOdd: '#172033',
+        fontSize: '10px',
+      },
+      er: {
+        diagramPadding: 16,
+        layoutDirection: 'TB',
+        minEntityWidth: 100,
+        minEntityHeight: 40,
+        entityPadding: 6,
+        useMaxWidth: false,
+      }
+    });
+  </script>
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #060d1a;
+      --surface: #0f172a;
+      --card: #111d35;
+      --border: rgba(255, 255, 255, .07);
+      --border2: rgba(96, 165, 250, .2);
+      --txt: #f1f5f9;
+      --muted: #64748b;
+      --blue: #3b82f6;
+      --indigo: #6366f1;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--txt);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      padding-bottom: 100px;
+      overflow-x: hidden;
+    }
+
+    /* ─── ANIMATED BG ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 10% 10%, rgba(59, 130, 246, .06), transparent),
+        radial-gradient(ellipse 60% 50% at 90% 80%, rgba(99, 102, 241, .06), transparent);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── HEADER ─── */
+    .hdr {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 64px 24px 56px;
+      border-bottom: 1px solid var(--border2);
+      overflow: hidden;
+    }
+
+    .hdr::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 90% 200% at 50% -30%, rgba(59, 130, 246, .18), transparent),
+        linear-gradient(180deg, rgba(99, 102, 241, .04), transparent);
+      pointer-events: none;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 16px;
+      border-radius: 99px;
+      background: rgba(59, 130, 246, .1);
+      border: 1px solid rgba(59, 130, 246, .3);
+      font-size: 11px;
+      font-weight: 700;
+      color: #93c5fd;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 22px;
+      position: relative;
+    }
+
+    .hdr h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 900;
+      letter-spacing: -.04em;
+      background: linear-gradient(135deg, #f8fafc 20%, #93c5fd 60%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      position: relative;
+      line-height: 1.1;
+    }
+
+    .hdr p {
+      color: var(--muted);
+      font-size: 15px;
+      margin-top: 12px;
+      position: relative;
+    }
+
+    /* ─── WRAPPER ─── */
+    .wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .sec {
+      text-align: center;
+      margin: 56px 0 28px;
+    }
+
+    .sec h2 {
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+    }
+
+    .sec p {
+      color: var(--muted);
+      font-size: 13.5px;
+      margin-top: 6px;
+    }
+
+    /* ─── DIAGRAM BOX ─── */
+    .diag {
+      background: linear-gradient(145deg, #0f172a, #111d35);
+      border: 1px solid var(--border2);
+      border-radius: 24px;
+      padding: 20px 12px;
+      box-shadow: 0 0 0 1px rgba(255, 255, 255, .03), 0 40px 80px rgba(0, 0, 0, .5);
+      overflow: auto;
+      position: relative;
+    }
+
+    .diag::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(96, 165, 250, .4), transparent);
+    }
+
+    .diag svg {
+      display: block;
+      margin: 0 auto;
+      max-width: 100% !important;
+      transform: scale(0.96);
+      transform-origin: top center;
+    }
+
+    /* ─── BUTTONS ─── */
+    .btns {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 28px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 22px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 13.5px;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+      transition: all .2s cubic-bezier(.4, 0, .2, 1);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #2563eb, #4f46e5);
+      color: #fff;
+      box-shadow: 0 4px 20px rgba(59, 130, 246, .35);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #1d4ed8, #4338ca);
+      box-shadow: 0 8px 28px rgba(59, 130, 246, .45);
+      transform: translateY(-2px);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid rgba(255, 255, 255, .1);
+      color: #94a3b8;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, .08);
+      color: #e2e8f0;
+      transform: translateY(-2px);
+    }
+
+    /* ─── ALUR FLOW DIAGRAM ─── */
+    .flow {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      margin: 0 auto 40px;
+      max-width: 960px;
+    }
+
+    .flow-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 120px;
+    }
+
+    .flow-box {
+      background: var(--card);
+      border: 1px solid var(--border2);
+      border-radius: 14px;
+      padding: 14px 18px;
+      text-align: center;
+      position: relative;
+      transition: all .2s;
+      cursor: default;
+    }
+
+    .flow-box:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(59, 130, 246, .15);
+    }
+
+    .flow-icon {
+      font-size: 24px;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .flow-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: .04em;
+    }
+
+    .flow-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: #f1f5f9;
+      margin-top: 2px;
+    }
+
+    .flow-arrow {
+      display: flex;
+      align-items: center;
+      padding: 0 4px;
+      margin-top: -16px;
+    }
+
+    .flow-arrow svg {
+      color: #3b82f6;
+    }
+
+    .flow-rel {
+      font-size: 9px;
+      font-weight: 600;
+      color: #60a5fa;
+      background: rgba(59, 130, 246, .1);
+      border-radius: 4px;
+      padding: 1px 6px;
+      white-space: nowrap;
+    }
+
+    /* ─── LEGEND ─── */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 20px;
+      justify-content: center;
+      margin: 28px auto 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 22px;
+      max-width: 720px;
+    }
+
+    .legend-title {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      width: 100%;
+      text-align: center;
+    }
+
+    .li {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .chip {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 5px;
+      font-weight: 700;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .c1n {
+      background: rgba(59, 130, 246, .15);
+      color: #93c5fd;
+    }
+
+    .c11 {
+      background: rgba(16, 185, 129, .15);
+      color: #6ee7b7;
+    }
+
+    .co1 {
+      background: rgba(245, 158, 11, .15);
+      color: #fcd34d;
+    }
+
+    /* ─── RELATION TABLE ─── */
+    .rtbl-wrap {
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .rtbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      background: var(--card);
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .rtbl thead {
+      background: rgba(59, 130, 246, .08);
+    }
+
+    .rtbl th {
+      padding: 12px 18px;
+      text-align: left;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border2);
+    }
+
+    .rtbl td {
+      padding: 11px 18px;
+      border-bottom: 1px solid rgba(255, 255, 255, .04);
+      vertical-align: middle;
+      line-height: 1.5;
+    }
+
+    .rtbl tr:last-child td {
+      border-bottom: none;
+    }
+
+    .rtbl tr:hover td {
+      background: rgba(255, 255, 255, .02);
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      background: rgba(255, 255, 255, .07);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #c4b5fd;
+    }
+
+    /* ─── TOAST ─── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      border: 1px solid rgba(59, 130, 246, .4);
+      color: #93c5fd;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: all .25s;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    #toast.on {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+
+  <!-- ── DIAGRAM MERMAID ── -->
+  <div class="sec" style="margin-top:20px;">
+    <h2>Diagram ERD Lengkap</h2>
+    <p>Semua kolom, tipe data, dan relasi antar tabel dirender otomatis</p>
+  </div>
+  <div class="diag">
+    <div class="mermaid">
+      erDiagram
+      users {
+      int id PK
+      varchar name
+      varchar role "admin|seller|user"
+      varchar status
+      }
+
+      seller_applications {
+      int id PK
+      int user_id FK
+      varchar business_name
+      varchar status "pending|approved|rejected"
+      }
+
+      products {
+      int id PK
+      int seller_id FK
+      varchar name
+      decimal price
+      int stock
+      }
+
+      orders {
+      int id PK
+      int product_id FK
+      decimal total_amount
+      varchar status
+      varchar payment_method
+      }
+
+      payments {
+      int id PK
+      int order_id FK
+      decimal amount
+      varchar payment_status
+      varchar payment_channel
+      }
+
+      payment_status_histories {
+      int id PK
+      int payment_id FK
+      int actor_id FK
+      varchar from_status
+      varchar to_status
+      }
+
+      users ||--o| seller_applications : "mengajukan"
+      seller_applications ||--o{ products : "mengelola"
+      users ||--o{ products : "melihat"
+      products ||--o{ orders : "dipesan di"
+      orders ||--|| payments : "membayar"
+      payments ||--o{ payment_status_histories : "dicatat"
+    </div>
+  </div>
+  <!-- HIDDEN MERMAID CODE -->
+  <textarea id="mermaid-code" style="display:none;">erDiagram
+    users {
+        int id PK
+        varchar name
+        varchar email
+        varchar password
+        varchar role "admin|seller|user"
+        varchar status "active|pending|rejected"
+    }
+    seller_applications {
+        int id PK
+        int user_id FK
+        varchar business_name
+        varchar product_type
+        varchar status "pending|approved|rejected"
+        text rejection_reason
+    }
+    products {
+        int id PK
+        int seller_id FK
+        varchar name
+        decimal price
+        int stock
+        varchar image
+    }
+    orders {
+        int id PK
+        int product_id FK
+        varchar order_number
+        decimal total_amount
+        varchar status "pending|processing|ready|completed"
+        varchar payment_method "cod|transfer|midtrans"
+    }
+    payments {
+        int id PK
+        int order_id FK
+        decimal amount
+        varchar payment_status "pending|success|failed"
+        varchar payment_channel
+        varchar snap_token
+        varchar payment_proof
+        int verified_by FK
+    }
+    payment_status_histories {
+        int id PK
+        int payment_id FK
+        int actor_id FK
+        varchar from_status
+        varchar to_status
+        text note
+    }
+
+    users ||--o| seller_applications : "mengajukan"
+    seller_applications ||--o{ products : "mengelola"
+    users ||--o{ products : "melihat"
+    products ||--o{ orders : "dipesan di"
+    orders ||--|| payments : "membayar"
+    payments ||--o{ payment_status_histories : "dicatat"</textarea>
+
+  <div id="toast"></div>
+
+  <script>
+    const SCALE = 0.96;
+
+    // Setelah Mermaid render, sesuaikan tinggi container agar tidak ada ruang kosong
+    function fixDiagHeight() {
+      const svg = document.querySelector('.diag svg');
+      const diag = document.querySelector('.diag');
+      if (!svg || !diag) return;
+      const svgH = svg.getBoundingClientRect().height;
+      diag.style.height = (svgH * SCALE + 48) + 'px';
+    }
+    // Tunggu Mermaid selesai render
+    const obs = new MutationObserver(() => { setTimeout(fixDiagHeight, 100); });
+    obs.observe(document.querySelector('.diag'), { childList: true, subtree: true });
+    window.addEventListener('resize', fixDiagHeight);
+
+    function downloadSVG() {
+      const svg = document.querySelector('.diag svg');
+      if (!svg) { showToast('❌ Diagram belum selesai dimuat. Tunggu sebentar lalu coba lagi.'); return; }
+      const s = new XMLSerializer();
+      const src = '<?xml version="1.0" encoding="utf-8"?>\n' + s.serializeToString(svg);
+      const a = document.createElement('a');
+      a.href = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(src);
+      a.download = 'sikantin-erd.svg'; a.click();
+      showToast('✓ SVG diunduh! Drag & drop ke Canva atau PowerPoint.');
+    }
+    function copyCode() {
+      const txt = document.getElementById('mermaid-code').value.trim();
+      navigator.clipboard.writeText(txt)
+        .then(() => showToast('✓ Kode disalin! Paste di mermaid.live untuk ekspor PNG.'))
+        .catch(() => showToast('❌ Gagal menyalin.'));
+    }
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg; t.classList.add('on');
+      setTimeout(() => t.classList.remove('on'), 3500);
+    }
+  </script>
+</body>
+
+</html>

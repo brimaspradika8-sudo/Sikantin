@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::where('role', 'user');
+        $query = User::query()->where('role', '=', 'user');
 
         if ($request->filled('search')) {
             $query->where(fn ($q) =>
@@ -50,34 +51,34 @@ class UserController extends Controller
         $user->update($request->only(['name', 'email', 'phone', 'status']));
 
         AuditLog::create([
-            'actor_id' => auth()->id(),
+            'actor_id' => Auth::id(),
             'subject_id' => $user->id,
             'action' => 'update_user',
             'description' => 'Mengubah profil pengguna ' . $user->name,
-            'ip_address' => request()->ip(),
+            'ip_address' => $request->ip(),
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'Data pengguna berhasil diperbarui.');
     }
 
-    public function destroy(User $user)
+    public function destroy(Request $request, User $user)
     {
         abort_unless($user->role === 'user', 403);
 
-        $user->delete();
-
         AuditLog::create([
-            'actor_id' => auth()->id(),
+            'actor_id' => Auth::id(),
             'subject_id' => $user->id,
             'action' => 'delete_user',
-            'description' => 'Menghapus pengguna ' . $user->name,
-            'ip_address' => request()->ip(),
+            'description' => 'Menghapus pengguna ' . $user->email,
+            'ip_address' => $request->ip(),
         ]);
+
+        User::destroy($user->id);
 
         return redirect()->route('admin.users.index')->with('success', 'Pengguna berhasil dihapus.');
     }
 
-    public function toggleStatus(User $user)
+    public function toggleStatus(Request $request, User $user)
     {
         abort_unless($user->role === 'user', 403);
 
@@ -85,11 +86,11 @@ class UserController extends Controller
         $user->update(['status' => $newStatus]);
 
         AuditLog::create([
-            'actor_id' => auth()->id(),
+            'actor_id' => Auth::id(),
             'subject_id' => $user->id,
             'action' => 'toggle_user_status',
             'description' => 'Mengubah status pengguna ' . $user->name . ' menjadi ' . $newStatus,
-            'ip_address' => request()->ip(),
+            'ip_address' => $request->ip(),
         ]);
 
         return back()->with('success', 'Status pengguna diperbarui menjadi ' . $newStatus . '.');

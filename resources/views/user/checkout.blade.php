@@ -70,8 +70,6 @@
                         <div class="space-y-3">
                             @foreach([
                                 'midtrans' => ['Pembayaran Online Midtrans', 'QRIS, GoPay, ShopeePay, Virtual Account, dan kartu.'],
-                                'manual_transfer' => ['Transfer Bank Manual', 'Upload bukti transfer dan tunggu verifikasi penjual.'],
-                                'cash_pickup' => ['Cash on Pickup', 'Bayar tunai saat mengambil pesanan.'],
                                 'pay_at_canteen' => ['Bayar di Kantin', 'Selesaikan pembayaran langsung di kasir kantin.'],
                             ] as $value => [$title, $description])
                                 <label class="flex gap-3 rounded-lg border border-gray-200 dark:border-gray-700 p-4 cursor-pointer hover:border-brand-500 transition">

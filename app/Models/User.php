@@ -43,6 +43,10 @@ class User extends Authenticatable
     {
         $expectedRole = self::inferRoleFromEmail($this->email);
 
+        if ($expectedRole === 'user' && $this->role !== 'user') {
+            return;
+        }
+
         if ($this->role === $expectedRole) {
             return;
         }

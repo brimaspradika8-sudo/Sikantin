@@ -3,7 +3,6 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
                 <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100 leading-tight">Riwayat Pembelian</h2>
-                <p class="text-gray-500 dark:text-gray-400 mt-1">Lihat semua transaksi, filter tanggal, dan cetak invoice pesananmu.</p>
             </div>
             <a href="{{ route('user.catalog') }}" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-brand-500 text-white shadow hover:bg-brand-600 transition">
                 <i class="fa-solid fa-shop"></i> Katalog

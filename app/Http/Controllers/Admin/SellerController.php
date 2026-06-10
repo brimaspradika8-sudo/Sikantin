@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AuditLog;
+use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -37,17 +38,27 @@ class SellerController extends Controller
     {
         abort_unless($seller->role === 'seller', 403);
 
-        $password = Str::random(12);
+        $needsPassword = empty($seller->password);
 
-        $seller->update([
-            'status' => 'active',
-            'password' => Hash::make($password),
-        ]);
+        if ($needsPassword) {
+            $password = Str::random(12);
+            $seller->update([
+                'status' => 'active',
+                'password' => Hash::make($password),
+            ]);
 
-        Mail::raw("Akun penjual Anda telah disetujui. Silakan masuk ke dashboard penjual menggunakan email: {$seller->email} dan password: {$password}", function ($message) use ($seller) {
-            $message->to($seller->email)
-                ->subject('Akun Penjual Disetujui');
-        });
+            Mail::raw("Akun penjual Anda telah disetujui. Silakan masuk ke dashboard penjual menggunakan email: {$seller->email} dan password: {$password}", function ($message) use ($seller) {
+                $message->to($seller->email)
+                    ->subject('Akun Penjual Disetujui');
+            });
+        } else {
+            $seller->update(['status' => 'active']);
+
+            Mail::raw("Akun penjual Anda telah disetujui dan diaktifkan. Silakan login kembali menggunakan email: {$seller->email}", function ($message) use ($seller) {
+                $message->to($seller->email)
+                    ->subject('Akun Penjual Disetujui');
+            });
+        }
 
         AuditLog::create([
             'actor_id' => auth()->id(),
@@ -80,5 +91,23 @@ class SellerController extends Controller
         ]);
 
         return back()->with('success', 'Akun penjual ditolak dan email notifikasi telah dikirim.');
+    }
+
+    public function destroy(User $seller)
+    {
+        abort_unless($seller->role === 'seller', 403);
+
+        AuditLog::create([
+            'actor_id' => auth()->id(),
+            'subject_id' => $seller->id,
+            'action' => 'delete_seller',
+            'description' => 'Menghapus akun penjual ' . $seller->name,
+            'ip_address' => request()->ip(),
+        ]);
+
+        $seller->products()->delete();
+        $seller->delete();
+
+        return back()->with('success', 'Akun penjual berhasil dihapus.');
     }
 }

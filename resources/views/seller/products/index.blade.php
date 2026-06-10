@@ -27,7 +27,6 @@
                             <tr>
                                 <th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">Nama Produk</th>
                                 <th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">Harga</th>
-                                <th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">Stok</th>
                                 <th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">Status</th>
                                 <th class="px-6 py-3 text-xs font-semibold uppercase tracking-wider text-gray-600 dark:text-gray-300">Aksi</th>
                             </tr>
@@ -37,7 +36,6 @@
                                 <tr class="hover:bg-gray-50 dark:hover:bg-gray-900 transition">
                                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $product->name }}</td>
                                     <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">Rp {{ number_format($product->price, 0, ',', '.') }}</td>
-                                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $product->stock }}</td>
                                     <td class="px-6 py-4 text-sm">
                                         @if($product->is_open)
                                             <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-green-100 text-green-800">
@@ -67,7 +65,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">Belum ada produk. Tambahkan produk baru untuk mulai berjualan.</td>
+                                    <td colspan="4" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">Belum ada produk. Tambahkan produk baru untuk mulai berjualan.</td>
                                 </tr>
                             @endforelse
                         </tbody>

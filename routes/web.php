@@ -16,7 +16,7 @@ Route::get('/dashboard', function (Illuminate\Http\Request $request) {
     $user = $request->user();
     $user->applyEmailDomainRole();
 
-    if ($user->role === 'seller' && $user->status !== 'active') {
+    if ($user->role === 'seller' && $user->status !== 'active') { 
         return redirect()->route('profile.edit')->with('warning', $user->status === 'pending'
             ? 'Akun penjual Anda sedang menunggu konfirmasi admin.'
             : 'Akun penjual Anda ditolak. Silakan ajukan ulang permintaan penjual.');
@@ -44,8 +44,10 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::get('/sellers', [\App\Http\Controllers\Admin\SellerController::class, 'index'])->name('sellers.index');
     Route::patch('/sellers/{seller}/approve', [\App\Http\Controllers\Admin\SellerController::class, 'approve'])->name('sellers.approve');
     Route::patch('/sellers/{seller}/reject', [\App\Http\Controllers\Admin\SellerController::class, 'reject'])->name('sellers.reject');
+    Route::delete('/sellers/{seller}', [\App\Http\Controllers\Admin\SellerController::class, 'destroy'])->name('sellers.destroy');
 
     Route::get('/products', [\App\Http\Controllers\Admin\ProductController::class, 'index'])->name('products.index');
+    Route::delete('/products/{product}', [\App\Http\Controllers\Admin\ProductController::class, 'destroy'])->name('products.destroy');
 
     Route::get('/transactions', [\App\Http\Controllers\Admin\TransactionController::class, 'index'])->name('transactions.index');
     Route::patch('/transactions/{order}/approve-payment', [\App\Http\Controllers\Admin\TransactionController::class, 'approvePayment'])->name('transactions.approve-payment');
@@ -55,7 +57,6 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
     Route::get('/reports/export', [\App\Http\Controllers\Admin\ReportController::class, 'export'])->name('reports.export');
 
     Route::get('/audit-log', [\App\Http\Controllers\Admin\AuditLogController::class, 'index'])->name('audit-log.index');
-    Route::get('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('settings');
     
     // Seller Applications
     Route::get('/seller-applications', [\App\Http\Controllers\Admin\SellerApplicationController::class, 'index'])->name('seller-applications.index');

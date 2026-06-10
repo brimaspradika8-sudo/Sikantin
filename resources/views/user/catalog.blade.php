@@ -24,22 +24,16 @@
                 <aside class="space-y-6">
                     <form action="{{ route('user.catalog') }}" method="GET" class="bg-white dark:bg-gray-800 rounded-3xl p-6 shadow-sm border border-gray-200 dark:border-gray-700">
                         <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Filter</h3>
+                        
                         <label class="block mb-4">
                             <span class="text-sm text-gray-600 dark:text-gray-300">Pencarian</span>
-                            <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari produk..." class="mt-2 w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3" />
+                            <div class="mt-2 relative flex">
+                                <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari produk..." class="flex-1 rounded-l-2xl border border-r-0 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3 text-sm" />
+                                <button type="submit" class="px-4 py-3 rounded-r-2xl bg-brand-500 text-white hover:bg-brand-600 transition border border-brand-500 shrink-0">
+                                    <i class="fa-solid fa-magnifying-glass text-sm"></i>
+                                </button>
+                            </div>
                         </label>
-                        <label class="block mb-4">
-                            <span class="text-sm text-gray-600 dark:text-gray-300">Kategori</span>
-                            <select name="category" class="mt-2 w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3">
-                                <option value="">Semua Kategori</option>
-                                @foreach($categories as $category)
-                                    <option value="{{ $category->id }}" {{ request('category') == $category->id ? 'selected' : '' }}>{{ $category->name }}</option>
-                                @endforeach
-                            </select>
-                        </label>
-                        <button type="submit" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-brand-500 text-white hover:bg-brand-600 transition">
-                            <i class="fa-solid fa-magnifying-glass"></i> Cari
-                        </button>
                     </form>
                 </aside>
                 <div>
@@ -71,20 +65,15 @@
                                     </div>
                                     <div class="flex items-center justify-between gap-4">
                                         <div>
-                                            <p class="text-sm text-gray-500">Stok {{ $product->stock }}</p>
                                             <p class="text-xl font-black text-gray-900 dark:text-white">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                                         </div>
                                         <div class="flex flex-col gap-2">
                                             <a href="{{ route('user.product.show', $product) }}" class="inline-flex items-center justify-center px-4 py-2 rounded-full border border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-900 transition">Detail</a>
-                                            @if($product->stock > 0)
-                                                <form action="{{ route('user.cart.add') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                                    <button type="submit" class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-brand-500 text-white text-sm font-semibold hover:bg-brand-600 transition">Tambah</button>
-                                                </form>
-                                            @else
-                                                <button type="button" disabled class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-500 text-sm font-semibold cursor-not-allowed">Habis</button>
-                                            @endif
+                                            <form action="{{ route('user.cart.add') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                                <button type="submit" class="inline-flex items-center justify-center px-4 py-2 rounded-full bg-brand-500 text-white text-sm font-semibold hover:bg-brand-600 transition">Tambah</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

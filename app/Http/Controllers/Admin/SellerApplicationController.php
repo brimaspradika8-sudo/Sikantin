@@ -8,7 +8,9 @@ use App\Models\SellerApplication;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class SellerApplicationController extends Controller
@@ -17,7 +19,7 @@ class SellerApplicationController extends Controller
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
-            if (auth()->user()->role !== 'admin') {
+            if (Auth::user()?->role !== 'admin') {
                 abort(403, 'Unauthorized');
             }
             return $next($request);
@@ -44,21 +46,13 @@ class SellerApplicationController extends Controller
             return back()->with('error', 'Hanya aplikasi pending yang dapat disetujui.');
         }
 
-        // Generate seller account
-        $buyerEmail = $application->user->email;
-        $domain = substr($buyerEmail, strpos($buyerEmail, '@') + 1);
-        $sellerEmail = 'seller-' . Str::random(8) . '@' . $domain;
-        $sellerPassword = Str::random(12);
-
-        $sellerUser = User::create([
-            'name' => $application->business_name,
-            'email' => $sellerEmail,
-            'password' => Hash::make($sellerPassword),
+        $sellerUser = $application->user;
+        $sellerUser->update([
             'role' => 'seller',
-            'phone' => $application->contact,
+            'status' => 'active',
             'store_name' => $application->business_name,
             'address' => $application->address,
-            'status' => 'active',
+            'phone' => $application->contact,
         ]);
 
         $application->update([
@@ -66,16 +60,15 @@ class SellerApplicationController extends Controller
             'seller_user_id' => $sellerUser->id,
         ]);
 
-        // Send email to buyer with seller credentials
         try {
-            Mail::to($application->user->email)->send(
-                new SellerApplicationApproved($application, $sellerEmail, $sellerPassword)
+            Mail::to($sellerUser->email)->send(
+                new SellerApplicationApproved($application, $sellerUser->email, null)
             );
         } catch (\Exception $e) {
-            \Log::error('Failed to send seller approval email: ' . $e->getMessage());
+            Log::error('Failed to send seller approval email: ' . $e->getMessage());
         }
 
-        return back()->with('success', "Aplikasi disetujui. Email penjual: {$sellerEmail}");
+        return back()->with('success', 'Aplikasi disetujui. Pengaju dapat login kembali dengan email ini.');
     }
 
     public function reject(Request $request, SellerApplication $application)

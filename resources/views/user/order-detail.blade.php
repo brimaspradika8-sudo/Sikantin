@@ -5,9 +5,6 @@
                 <h2 class="font-semibold text-xl text-gray-900 dark:text-gray-100 leading-tight">Detail Pesanan</h2>
                 <p class="text-gray-500 dark:text-gray-400 mt-1">Lihat status pesanan, QR pengambilan, dan cetak invoice.</p>
             </div>
-            <button onclick="window.print()" class="inline-flex items-center gap-2 px-5 py-3 rounded-full border border-brand-500 text-brand-600 hover:bg-brand-50 transition">
-                <i class="fa-solid fa-print"></i> Cetak Invoice
-            </button>
         </div>
     </x-slot>
 

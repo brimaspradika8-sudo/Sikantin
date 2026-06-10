@@ -39,20 +39,19 @@
                         <div>
                             <h3 class="text-3xl font-black text-gray-900 dark:text-white">{{ $product->name }}</h3>
                             <p class="mt-2 text-brand-600 text-2xl font-bold">Rp {{ number_format($product->price, 0, ',', '.') }}</p>
-                            <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">Stok tersedia: <span class="font-semibold text-gray-900 dark:text-white">{{ $product->stock }}</span></p>
+                            
                         </div>
                         <div class="rounded-3xl border border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900">
                             <h4 class="text-lg font-bold text-gray-900 dark:text-white mb-4">Deskripsi Produk</h4>
                             <p class="text-gray-600 dark:text-gray-300 leading-relaxed">{{ $product->description ?? 'Deskripsi belum tersedia.' }}</p>
                         </div>
-                        @if($product->stock > 0)
                             <form action="{{ route('user.cart.add') }}" method="POST" class="grid gap-4">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
                                 <div class="grid grid-cols-1 sm:grid-cols-[1fr_160px] gap-3 items-center">
                                     <div>
                                         <label class="text-sm font-semibold text-gray-700 dark:text-gray-300">Jumlah</label>
-                                        <input type="number" name="quantity" value="1" min="1" max="{{ $product->stock }}" class="mt-2 w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3" />
+                                        <input type="number" name="quantity" value="1" min="1" class="mt-2 w-full rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 px-4 py-3" />
                                     </div>
                                     <button type="submit" class="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-brand-500 text-white font-semibold shadow hover:bg-brand-600 transition">
                                         <i class="fa-solid fa-cart-plus"></i> Tambah Keranjang
@@ -60,12 +59,6 @@
                                 </div>
                                 <p class="text-sm text-gray-500 dark:text-gray-400">Bayar langsung dengan QRIS, Dana, OVO, GoPay, ShopeePay, atau pilih bayar offline.</p>
                             </form>
-                        @else
-                            <div class="rounded-3xl border border-red-200 dark:border-red-700 p-5 bg-red-50 dark:bg-red-900 text-red-700 dark:text-red-200">
-                                <p class="font-semibold">Produk sedang habis</p>
-                                <p class="text-sm mt-1">Silakan pilih produk lain atau cek kembali nanti.</p>
-                            </div>
-                        @endif
                         @if($related->isNotEmpty())
                             <div class="rounded-3xl border border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900">
                                 <div class="flex items-center justify-between mb-4">
