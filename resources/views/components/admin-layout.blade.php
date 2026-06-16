@@ -13,8 +13,13 @@
 
         <!-- Scripts & Tailwind CDN -->
         <script src="https://cdn.tailwindcss.com"></script>
+        <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
+            html, body {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
             .nav-item {
                 display: flex;
                 align-items: center;
@@ -42,13 +47,17 @@
             }
         </style>
     </head>
-    <body class="font-sans antialiased bg-gray-50 dark:bg-gray-950 flex min-h-screen overflow-hidden">
+    <body x-data="{ sidebarOpen: false }" class="font-sans antialiased bg-gray-50 dark:bg-gray-950 min-h-screen overflow-x-hidden lg:overflow-hidden">
+        <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false" class="fixed inset-0 z-30 bg-slate-950/60 lg:hidden" style="display: none;"></div>
         
         <!-- Sidebar -->
-        <aside class="w-64 bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col h-full shadow-2xl">
+        <aside
+            class="fixed inset-y-0 left-0 z-40 w-72 max-w-[85vw] -translate-x-full bg-gradient-to-b from-slate-900 to-slate-800 text-white flex flex-col shadow-2xl transition-transform duration-300 lg:static lg:z-auto lg:h-screen lg:w-64 lg:max-w-none lg:translate-x-0"
+            :class="{ 'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen }"
+        >
             <!-- Logo -->
             <div class="h-20 flex items-center px-6 bg-gradient-to-r from-amber-500 to-amber-600 shadow-lg">
-                <div class="flex items-center gap-3">
+                <div class="flex flex-1 items-center gap-3">
                     <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center backdrop-blur-sm">
                         <i class="fa-solid fa-store text-white text-lg"></i>
                     </div>
@@ -57,6 +66,9 @@
                         <p class="text-xs text-amber-100">Admin Panel</p>
                     </div>
                 </div>
+                <button type="button" @click="sidebarOpen = false" class="inline-flex h-10 w-10 items-center justify-center rounded-lg text-white/90 hover:bg-white/15 lg:hidden">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
             
             <!-- Navigation -->
@@ -104,12 +116,15 @@
         </aside>
 
         <!-- Main Content -->
-        <div class="flex-1 flex flex-col h-full overflow-hidden">
+        <div class="flex min-h-screen w-full flex-1 flex-col lg:h-screen lg:overflow-hidden">
             <!-- Topbar -->
-            <header class="h-20 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between px-8 shadow-sm backdrop-blur-sm bg-white/80 dark:bg-slate-800/80">
-                <div>
+            <header class="min-h-16 lg:h-20 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 flex items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8 shadow-sm backdrop-blur-sm bg-white/80 dark:bg-slate-800/80">
+                <div class="flex min-w-0 items-center gap-3">
+                    <button type="button" @click="sidebarOpen = true" class="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gray-200 bg-white text-gray-700 shadow-sm hover:bg-gray-50 dark:border-slate-700 dark:bg-slate-900 dark:text-gray-200 dark:hover:bg-slate-800 lg:hidden">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                     @if (isset($header))
-                        <div class="font-bold text-2xl text-gray-900 dark:text-gray-100 leading-tight">
+                        <div class="truncate font-bold text-lg text-gray-900 dark:text-gray-100 leading-tight sm:text-2xl">
                             {{ $header }}
                         </div>
                     @else
@@ -117,19 +132,19 @@
                     @endif
                 </div>
 
-                <div class="flex items-center gap-6 text-gray-600 dark:text-gray-400">
-                    <div class="flex items-center gap-3 px-4 py-2 rounded-lg bg-gray-100 dark:bg-slate-700">
-                        <div class="w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
+                <div class="flex shrink-0 items-center gap-3 text-gray-600 dark:text-gray-400">
+                    <div class="flex items-center gap-3 rounded-lg bg-gray-100 px-2 py-2 dark:bg-slate-700 sm:px-4">
+                        <div class="h-8 w-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 flex items-center justify-center">
                             <i class="fa-solid fa-user-shield text-white text-sm"></i>
                         </div>
-                        <span class="font-medium text-sm text-gray-900 dark:text-gray-200">{{ Auth::user()->name }}</span>
+                        <span class="hidden max-w-40 truncate font-medium text-sm text-gray-900 dark:text-gray-200 sm:inline">{{ Auth::user()->name }}</span>
                     </div>
                 </div>
             </header>
 
             <!-- Content -->
             <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 dark:bg-gray-950">
-                <div class="p-8">
+                <div class="px-4 py-6 sm:px-6 lg:p-8">
                     {{ $slot }}
                 </div>
             </main>

@@ -12,7 +12,7 @@
     </x-slot>
 
     <div class="py-10">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
             <section class="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div class="lg:col-span-2 bg-gradient-to-br from-brand-500 to-brand-600 text-white rounded-3xl p-8 shadow-xl relative overflow-hidden">
                     <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_top_right,_theme(colors.brand.300),_transparent_40%)]"></div>

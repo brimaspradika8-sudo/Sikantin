@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-3xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             <div class="bg-white dark:bg-gray-800 shadow sm:rounded-lg p-6">
                 <div class="space-y-4">
                     <p class="text-gray-600 dark:text-gray-300">Isi data bisnis Anda agar admin dapat meninjau permintaan akun penjual. Setelah disetujui, akun penjual Anda akan aktif.</p>

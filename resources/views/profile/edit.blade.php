@@ -6,7 +6,7 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
             @if(session('status') === 'seller-requested')
                 <div class="rounded-3xl bg-yellow-50 dark:bg-yellow-900/50 border border-yellow-200 dark:border-yellow-700 p-6 text-yellow-800 dark:text-yellow-100 shadow-sm">
                     <p class="font-semibold">Permintaan Penjual Diterima</p>

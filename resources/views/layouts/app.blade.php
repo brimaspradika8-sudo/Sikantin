@@ -49,7 +49,17 @@
             }
         </script>
         <style>
+            html, body {
+                max-width: 100%;
+                overflow-x: hidden;
+            }
             body { font-family: 'Outfit', sans-serif; }
+            img, video, canvas, svg {
+                max-width: 100%;
+            }
+            table {
+                max-width: 100%;
+            }
         </style>
     </head>
     <body class="font-sans antialiased text-gray-900 bg-gray-50 dark:bg-gray-900">
@@ -59,7 +69,7 @@
             <!-- Page Heading -->
             @if(isset($header) || View::hasSection('header'))
                 <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    <div class="max-w-7xl mx-auto py-5 px-4 sm:py-6 sm:px-6 lg:px-8">
                         @isset($header)
                             {{ $header }}
                         @else
